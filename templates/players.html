@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Championships{% endblock %}
+{% block body %}
+{% for player in players %}
+<div>
+{{ player.name}}
+
+</div>
+{% endfor %}
+
+{% endblock %}

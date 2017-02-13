@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Article - {{article.subject}}{% endblock %}
+{% block body %}
+<center><h1>{{article.subject}}</h1></center>
+{{article.content}}
+<form action="{{url_for('article') }}" method="post">
+{% endblock %}

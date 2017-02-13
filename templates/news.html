@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Championships{% endblock %}
+{% block body %}
+{% for article in newslist %}
+<div class="article">
+<a href="{{url_for('article', id=article.id) }}">{{ article.subject }}</a>
+{{ article.content }}
+</div>
+{% endfor %}
+
+
+{%endblock%}
