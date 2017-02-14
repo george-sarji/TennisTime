@@ -29,6 +29,9 @@
         <li><a href="{{ url_for('signup') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       {% else %}
+        {% if session['admin'] == True %}
+        <li><a href="{{url_for('admincp') }}">Admin Control Panel</a></li>
+        {% endif %}
         <li><a href="{{ url_for('profile') }}">{{session['name']}}</a></li>
         <li><a href="{{ url_for('logout') }}">Log out</a></li>
       {% endif %}

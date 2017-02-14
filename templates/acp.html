@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Admin Control Panel{% endblock %}
+{% block body %}
+<a href="{{ url_for('ManageArticles') }}">Add a new article</a>
+<a href="{{ url_for('ManageUsers') }}">Manage Users</a>
+
+{% endblock %}

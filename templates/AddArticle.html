@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}Admin Control Panel{% endblock %}
+{% block body %}
+<form action="{{ url_for('addarticle') }}" method="post">
+<input type="text" name="subject" placeholder="The subject">
+<textarea name="content" placeholder="The content"></textarea>
+<input type="submit" value="Add article">
+</form>
+{% endblock %}

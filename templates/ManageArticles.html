@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}ACP - Manage Articles{% endblock %}
+{% block body %}
+{% for article in articles %}
+<div class="article">
+<form action="{{ url_for('ManageArticle', id=article.id) }}" method="get">
+<p>{{article.subject}}</p>
+<p>{{article.content}}</p>
+<center><input type="submit" value="Manage"></center>
+</div>
+</form>
+
+{% endfor %}
+{% endblock %}

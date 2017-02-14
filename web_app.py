@@ -19,7 +19,7 @@ from sqlalchemy.orm import sessionmaker
 # from model import *
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'images'
+UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -52,6 +52,7 @@ def login():
 			login_session['name']=user.name
 			login_session['email']=user.email
 			login_session['id']=user.id
+			login_session['admin']=user.admin
 			g.id=user.id
 			flash("Login successful! Welcome back, "+user.name)
 			return redirect(url_for('main'))
@@ -129,8 +130,8 @@ def admincp():
 		flash("You are not logged in.")
 		return redirect('login')
 	elif login_session is not None:
-		email=login_session['email']
-		user=dbsession.query(User).filter_by(email="test").first()
+		id=login_session['id']
+		user=dbsession.query(User).filter_by(id=id).first()
 		if (user is not None and user.admin):
 			return render_template('acp.html')
 		flash ("Access not authorized.")
@@ -145,13 +146,22 @@ def article(id):
 			return redirect(url_for('news'))
 		else:
 			author=dbsession.query(User).filter_by(id=article.user).first()
-			return render_template('article.html', article=article, author=author)
+			users=[]
+			comments=dbsession.query(Comment).filter_by(news_id=id).all()
+			for comment in comments:
+				users.append(dbsession.query(User).filter_by(id=comment.user_id).first())
+			return render_template('article.html', article=article, author=author, comments=comments, users=users)
 	else:
-		return redirect(url_for('main'))
+		comment=request.form['comment']
+		newcomment=Comment(user_id=login_session['id'], news_id=id, content=comment)
+		dbsession.add(newcomment)
+		dbsession.commit()
+		return redirect(url_for('article', id=id))
 
 @app.route('/profile')
 def profile():
-	return render_template('index.html')
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	return render_template('Profile.html', user=user)
 
 @app.route('/logout')
 def logout():
@@ -160,6 +170,66 @@ def logout():
 	del login_session['name']
 	flash("Good bye!")
 	return redirect(url_for('login'))
+
+@app.route('/acp/articles')
+def ManageArticles():
+	articles = dbsession.query(News).all()
+	return render_template('ManageArticles.html', articles=articles)
+
+@app.route('/acp/article/<int:id>', methods=['POST', 'GET'])
+def ManageArticle(id):
+	article=dbsession.query(News).filter_by(id=id).first()
+	if request.method=='GET':
+		if (article is None):
+			flash("Invalid article.")
+			return redirect(url_for('ManageArticles'))
+		else:
+			comments=dbsession.query(Comment).filter_by(news_id=article.id).all()
+			return render_template('ManageArticle.html', article=article, comments=comments)
+	else:
+		subject=request.form['subject']
+		content=request.form['content']
+		if (subject!=article.subject):
+			article.subject=subject
+		if (content != article.content):
+			article.content=content
+		dbsession.commit()
+		return redirect(url_for('ManageArticle', id=id))
+
+@app.route('/acp/comment/<int:id>')
+def DeleteComment(id):
+	comment=dbsession.query(Comment).filter_by(id=id).first()
+	dbsession.delete(comment)
+	dbsession.commit()
+	flash("Comment has been deleted successfully.")
+	return redirect(url_for('ManageArticles'))
+
+@app.route('/acp/members')
+def ManageUsers():
+	users=dbsession.query(User).all()
+	return render_template('ManageUsers.html', users=users)
+
+@app.route('/acp/member/<int:id>', methods=['POST', 'GET'])
+def ManageUser(id):
+	user=dbsession.query(User).filter_by(id=id).first()
+	if (request.method=='GET'):
+		if user is None:
+			flash("Invalid user.")
+			return redirect(url_for('ManageUsers'))
+		else:
+			return render_template('ManageUser.html', user=user)
+	else:
+		if (user.admin):
+			flash("You cant delete the admin account.")
+			return redirect(url_for("ManageUser", id = user.id))
+		comments=dbsession.query(Comment).filter_by(user=user).all()
+		for comment in comments:
+			dbsession.delete(comment)
+		#dbsession.delete(comments)
+		dbsession.delete(user)
+		dbsession.commit()
+		flash("User deleted successfully.")
+		return redirect(url_for('ManageUsers'))
 
 if __name__ == '__main__':
 	app.run(debug=True)

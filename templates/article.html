@@ -3,5 +3,16 @@
 {% block body %}
 <center><h1>{{article.subject}}</h1></center>
 {{article.content}}
-<form action="{{url_for('article') }}" method="post">
+{% if 'id' in session %}
+<form action="{{url_for('article', id=article.id) }}" method="post">
+<textarea name="comment" placeholder="Comment here..."></textarea>
+<input type="submit" value="Comment">
+</form>
+{% endif %}
+{% for comment in comments %}
+<div class="comment">
+{{users[loop.index0].name}}
+{{comment.content}}
+</div>
+{% endfor %}
 {% endblock %}

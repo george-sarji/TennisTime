@@ -69,17 +69,22 @@ class News(Base):
     user=Column(Integer, ForeignKey('user.id'))
     subject=Column(String)
     content=Column(String)
+    comments=relationship('Comment', uselist=True)
 
 class Comment(Base):
     __tablename__='comment'
     id=Column(Integer, primary_key=True)
+    article=relationship('News')
+    user=relationship('User')
     user_id=Column(Integer, ForeignKey('user.id'))
     news_id=Column(Integer, ForeignKey('news.id'))
+    content=Column(String)
 
 class Gallery(Base):
     __tablename__="gallery"
     id=Column(Integer, primary_key=True)
     news_id=Column(Integer, ForeignKey('news.id'))
+    nae=Column(String)
 
 engine = create_engine('sqlite:///Project.db')
 

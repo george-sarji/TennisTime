@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}ACP - Managing Users{% endblock %}
+{% block body %}
+{% for user in users %}
+<form action="{{url_for('ManageUser', id=user.id )}}" method="get">
+	<p>{{user.name}}</p>
+	<p>{{user.email}}</p>
+	<p><center><input type="submit" value="Manage User"></center></p>
+</form>
+{% endfor %}
+{% endblock %}
