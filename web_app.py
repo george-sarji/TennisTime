@@ -231,7 +231,7 @@ def ManageUser(id):
 		flash("User deleted successfully.")
 		return redirect(url_for('ManageUsers'))
 
-@app.route('/acp/article/delete/<int:id>')
+@app.route('/acp/article/delete/<int:id>', methods=['POST'])
 def DeleteArticle(id):
 	article=dbsession.query(News).filter_by(id=id).first()
 	if (article is None):
