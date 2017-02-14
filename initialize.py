@@ -12,7 +12,8 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 #You can add some starter data for your database here.
-user=User(name="test", country="testland", email="testlol@tester.beta")
+user=User(name="Admin", country="Palestine", email="george17@meet.mit.edu", admin=True, photo="user_1.jpg")
+user.hash_password("Administrator")
 date = datetime(day=11, month=12, year=2013)
 champ=Championship(name="Nada's championship", date=date, place="Nazareth")
 news=News(user=1, subject="test", content="Test, this is a test.")
