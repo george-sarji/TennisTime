@@ -11,7 +11,7 @@
 	<center><input type="submit" value="Delete"></center>
 </form>
 {% for comment in comments %}
-<form action="{{ url_for('DeleteComment', id=comment.id ) }}" method="get">
+<form action="{{ url_for('DeleteComment', id=comment.id ) }}" method="post">
 	<p>User: {{comment.user.name}}</p>
 	<p>Content: {{comment.content}}</p>
 	<p><center><input type="submit" value="Delete"></center></p>
