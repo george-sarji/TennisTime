@@ -233,15 +233,16 @@ def ManageUser(id):
 
 @app.route('/acp/article/delete/<int:id>', methods=['POST'])
 def DeleteArticle(id):
-	article=dbsession.query(News).filter_by(id=id).first()
-	if (article is None):
-		flash("Invalid article.")
-		return redirect(url_for('ManageArticles'))
-	else:
-		dbsession.delete(article)
-		dbsession.commit()
-		flash("Article successfully deleted.")
-		return redirect(url_for('ManageArticles'))
+	if (request.method=='POST'):
+		article=dbsession.query(News).filter_by(id=id).first()
+		if (article is None):
+			flash("Invalid article.")
+			return redirect(url_for('ManageArticles'))
+		else:
+			dbsession.delete(article)
+			dbsession.commit()
+			flash("Article successfully deleted.")
+			return redirect(url_for('ManageArticles'))
 
 if __name__ == '__main__':
 	app.run(debug=True)
