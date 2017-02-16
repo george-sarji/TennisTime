@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Admin Control Panel{% endblock %}
+{% block body %}
+<center><h1>Adding new championship</h1></center>
+<form action="{{ url_for('AddChampionship') }}" method="post">
+<p>Name: <input type="text" name="name" placeholder="Championship name" required></p>
+<p>Place: <input type="text" name="place" placeholder="Championship place" required></p>
+<p>Date: <input type="date" name="date" required></p>
+<p><center><input type="submit" value="Add Championship"></center></p>
+</form>
+{% endblock %}

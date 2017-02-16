@@ -117,7 +117,7 @@ def championships():
 @app.route('/players')
 def players():
 	playerslist=dbsession.query(Player).all()
-	return render_template('players.html', playerslist=playerslist)
+	return render_template('players.html', players=playerslist)
 
 @app.route('/news')
 def news():
@@ -145,7 +145,7 @@ def article(id):
 			flash("Invalid article. Page could not be found.")
 			return redirect(url_for('news'))
 		else:
-			author=dbsession.query(User).filter_by(id=article.user).first()
+			author=dbsession.query(User).filter_by(id=article.user.id).first()
 			users=[]
 			comments=dbsession.query(Comment).filter_by(news_id=id).all()
 			for comment in comments:
@@ -173,11 +173,25 @@ def logout():
 
 @app.route('/acp/articles')
 def ManageArticles():
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
 	articles = dbsession.query(News).all()
 	return render_template('ManageArticles.html', articles=articles)
 
 @app.route('/acp/article/<int:id>', methods=['POST', 'GET'])
 def ManageArticle(id):
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
 	article=dbsession.query(News).filter_by(id=id).first()
 	if request.method=='GET':
 		if (article is None):
@@ -196,8 +210,15 @@ def ManageArticle(id):
 		dbsession.commit()
 		return redirect(url_for('ManageArticle', id=id))
 
-@app.route('/acp/comment/<int:id>')
+@app.route('/acp/comment/<int:id>', methods=['POST'])
 def DeleteComment(id):
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
 	comment=dbsession.query(Comment).filter_by(id=id).first()
 	dbsession.delete(comment)
 	dbsession.commit()
@@ -211,6 +232,13 @@ def ManageUsers():
 
 @app.route('/acp/member/<int:id>', methods=['POST', 'GET'])
 def ManageUser(id):
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
 	user=dbsession.query(User).filter_by(id=id).first()
 	if (request.method=='GET'):
 		if user is None:
@@ -231,18 +259,194 @@ def ManageUser(id):
 		flash("User deleted successfully.")
 		return redirect(url_for('ManageUsers'))
 
-@app.route('/acp/article/delete/<int:id>', methods=['POST'])
+@app.route('/acp/article/delete/<int:id>')
 def DeleteArticle(id):
-	if (request.method=='POST'):
-		article=dbsession.query(News).filter_by(id=id).first()
-		if (article is None):
-			flash("Invalid article.")
-			return redirect(url_for('ManageArticles'))
-		else:
-			dbsession.delete(article)
-			dbsession.commit()
-			flash("Article successfully deleted.")
-			return redirect(url_for('ManageArticles'))
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
+	article=dbsession.query(News).filter_by(id=id).first()
+	if (article is None):
+		flash("Invalid article.")
+		return redirect(url_for('ManageArticles'))
+	else:
+		comments=dbsession.query(Comment).filter_by(news_id=article.id).all()
+		for comment in comments:
+			dbsession.delete(comment)
+		dbsession.delete(article)
+		dbsession.commit()
+		flash("Article successfully deleted.")
+		return redirect(url_for('ManageArticles'))
+
+
+@app.route('/acp/add', methods=['GET', 'POST'])
+def AddArticle():
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
+	if request.method =='GET':
+		return render_template('AddArticle.html')
+	else:
+		subject=request.form['subject']
+		content=request.form['content']
+		content=content.replace('\r', '\n')
+		article=News(subject=subject, content=content, user=user, user_id=user.id)
+		dbsession.add(article)
+		dbsession.commit()
+		flash("Article added successfully.")
+		return redirect(url_for('ManageArticles'))
+
+@app.route('/acp/championships')
+def ManageChampionships():
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+		return redirect(url_for('main'))
+	championships=dbsession.query(Championship).all()
+	return render_template('ManageChampionships.html', championships=championships)
+
+@app.route('/acp/addchamp', methods=['GET', 'POST'])
+def AddChampionship():
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+	if request.method=='GET':
+		return render_template('AddChampionship.html')
+	else:
+		name=request.form['name']
+		place=request.form['place']
+		date=request.form['date']
+		date=date.split('-')
+		championship=Championship(name=name, place=place, date=datetime(year=(int)(date[0]), month=(int)(date[1]), day=(int)(date[2])))
+		dbsession.add(championship)
+		dbsession.commit()
+		flash("Championship added succesfully.")
+		return redirect(url_for('ManageChampionships'))
+
+@app.route('/acp/managechamp/<int:id>', methods=['POST', 'GET'])
+def ManageChampionship(id):
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+	championship=dbsession.query(Championship).filter_by(id=id).first()
+	if championship is None:
+		flash("Championship was not found.")
+		return redirect(url_for('ManageChampionships'))
+	if request.method=='GET':
+		return render_template('ManageChampionship.html', championship=championship)
+	else:
+		name=request.form['name']
+		place=request.form['place']
+		date=request.form['date']
+		date=date.split('-')
+		championship.name=name
+		championship.place=place
+		championship.date=datetime(year=(int)(date[0]), month=(int)(date[1]), day=(int)(date[2]))
+		dbsession.commit()
+		flash("Championship edited successfully.")
+		return redirect(url_for('ManageChampionships'))
+
+@app.route('/acp/deletechamp/<int:id>')
+def DeleteChampionship(id):
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+	championship=dbsession.query(Championship).filter_by(id=id).first()
+	if championship is None:
+		flash("Championship was not found.")
+		return redirect(url_for('ManageChampionships'))
+	else:
+		dbsession.delete(championship)
+		dbsession.commit()
+		flash("Championship deleted successfully.")
+		return redirect(url_for('ManageChampionships'))
+
+
+@app.route('/acp/manageplayers')
+def ManagePlayers():
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+	players=dbsession.query(Player).all()
+	return render_template("ManagePlayers.html", players=players)
+
+@app.route('/acp/manageplayer/<int:id>', methods=['POST', 'GET'])
+def ManagePlayer(id):
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+	player=dbsession.query(Player).filter_by(id=id).first()
+	if player is None:
+		flash("Invalid player.")
+		return redirect(url_for('ManagePlayers'))
+	if request.method=='GET':
+		return render_template("ManagePlayer.html", player=player)
+	else:
+		name=request.form['name']
+		bday=request.form['date'].split('-')
+		country=request.form['country']
+		club=request.form['club']
+		awards=request.form['awards']
+		narrative=request.form['narrative'].replace('\r', '<br>')
+		player.name=name
+		player.birthday=datetime(year=(int)(bday[0]), month=(int)(bday[1]), day=(int)(bday[2]))
+		player.country=country
+		player.club=club
+		player.awards=awards
+		player.narrative=narrative
+		dbsession.commit()
+		flash("Player edited successfully.")
+		return redirect(url_for('ManagePlayers'))
+
+@app.route('/acp/addplayer', methods=['POST', 'GET'])
+def AddPlayer():
+	if login_session is None:
+		flash("You must be logged in to do this.")
+		return redirect(url_for('login'))
+	user=dbsession.query(User).filter_by(id=login_session['id']).first()
+	if (not user.admin):
+		flash("You are not authorized to do this.")
+	if request.method=='GET':
+		return render_template('AddPlayer.html')
+	else:
+		name=request.form['name']
+		birthday=request.form['birthday'].split('-')
+		country=request.form['country']
+		gender=request.form['gender']
+		club=request.form['club']
+		awards=(int)(request.form['awards'])
+		narrative=request.form['narrative'].replace('\r', '\n')
+		player=Player(name=name, dob=datetime(year=(int)(birthday[0]), month=(int)(birthday[1]), day=(int)(birthday[2])), country=country, gender=gender,
+			club=club, narrative=narrative, awards=awards)
+		dbsession.add(player)
+		dbsession.commit()
+		flash("Player added successfully.")
+		return redirect(url_for('ManagePlayers'))
 
 if __name__ == '__main__':
 	app.run(debug=True)

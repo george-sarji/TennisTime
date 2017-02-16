@@ -16,7 +16,7 @@ user=User(name="Admin", country="Palestine", email="george17@meet.mit.edu", admi
 user.hash_password("Administrator")
 date = datetime(day=11, month=12, year=2013)
 champ=Championship(name="Nada's championship", date=date, place="Nazareth")
-news=News(user=1, subject="test", content="Test, this is a test.")
+news=News(user=user, user_id=1, subject="test", content="Test, this is a test.")
 session.add(user)
 session.add(champ)
 session.add(news)

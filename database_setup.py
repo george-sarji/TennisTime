@@ -66,7 +66,8 @@ class PlayerAssoc(Base):
 class News(Base):
     __tablename__='news'
     id=Column(Integer, primary_key=True)
-    user=Column(Integer, ForeignKey('user.id'))
+    user=relationship('User')
+    user_id=Column(Integer, ForeignKey('user.id'))
     subject=Column(String)
     content=Column(String)
     comments=relationship('Comment', uselist=True)

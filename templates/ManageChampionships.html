@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}Admin Control Panel{% endblock %}
+{% block body %}
+<center><h1>Managing Championships</h1></center>
+{% for championship in championships %}
+<form action="{{ url_for('ManageChampionship', id=championship.id) }}" method="get">
+<p>{{championship.name}}</p>
+<p>{{championship.date}}</p>
+<p>{{championship.place}}</p>
+<center><p><input type="submit" value="Manage Championship"></p></center>
+</form>
+<hr>
+{% endfor %}
+<p><center><a href="{{ url_for('AddChampionship') }}">Add Championship</a></center></p>
+{% endblock %}

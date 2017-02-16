@@ -3,8 +3,13 @@
 {% block body %}
 {% for player in players %}
 <div>
-{{ player.name}}
-
+<p>{{ player.name}}</p>
+<p>{{player.dob}}</p>
+<p>{{player.country}}</p>
+<p>{{player.awards}}</p>
+<p>{{player.club}}</p>
+<p>{{player.narrative}}</p>
+<hr>
 </div>
 {% endfor %}
 

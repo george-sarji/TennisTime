@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Admin Control Panel{% endblock %}
+{% block body %}
+<center><h1>Manage Players</h1></center>
+{% for player in players %}
+<form action="{{ url_for('ManagePlayer', id=player.id) }}" method="get">
+<p>Name: {{player.name}}</p>
+<p>Birthday: {{player.dob}}</p>
+<p>Country: {{player.country}}</p>
+<p>Club: {{player.club}}</p>
+<p>Awards: {{player.awards}}</p>
+<p><center><input type="submit" value="Manage"></center></p>
+</form>
+{% endfor %}
+<p><center><a href="{{ url_for('AddPlayer') }}">Add Plauer</a></center></p>
+{% endblock %}
