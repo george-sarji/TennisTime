@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+<!----->
+<div class="about-section w3layouts">
+	 <div class="container">
+		 <h2>ABOUT ME</h2>
+		 <div class="col-md-4 about-sec">
+			 <h3>Who Am I</h3>
+			 <img src="{{url_for('static', filename='images/profile.jpg') }}" alt="" width=335px height=218px/>
+			 <p>I am a 16 years old Palestinian boy called George. I, myself, am a Tennis player, and have been playing for the past 3 years. I also have the hobby of coding and developing websites, and I also learn at an organization called MEET (Middle East Entrepreuents of Tomorrow).</p>
+		 </div>
+		 <div class="col-md-4 list">
+			 <h3>History</h3>
+			 <div class="list-grid">
+			 <h4 class="list-year">2014</h4>
+			 <p class="info">My sister began to talk to me about the program, and I became interested in it. I also began to play Tennis this year.</p>
+			 </div>
+			 <div class="list-grid">
+			 <h4 class="list-year">2015</h4>
+			 <p class="info">I applied for MEET and got accepted, and began to learn one day a week for three hours straight. I also chose Computer Science and Physics as my major. During my first summer, I pitched a project to the general manager of Facebook in Israel.</p>
+			 </div>
+			 <div class="list-grid">
+			 <h4 class="list-year">2016</h4>
+			 <p class="info">I have fully completed my first year in MEET and began my second year. I pitched a project at Google to multiple engineers that work there.</p>
+			 </div>
+
+			 <div class="clearfix"></div>
+			 </ul>
+		 </div>
+		 <div class="col-md-4 side-list">
+			 <h3>Experiences</h3>
+				<p>These are my experiences in life so far.</p>
+				<ul>
+			   <li><a href="#"><span> </span>C# coding</a></li>
+			   <li><a href="#"><span> </span>Python coding</a></li>
+			   <li><a href="#"><span> </span>Javascript front-end coding</a></li>
+			   <li><a href="#"><span> </span>ASP.Net back-end development</a></li>
+			   <li><a href="#"><span> </span>Flask back-end development</a></li>
+			   <li><a href="#"><span> </span>Tennis National League</a></li>	
+			   <li><a href="#"><span> </span>Business knowledge & Pitching</a></li>
+			   <li><a href="#"><span> </span>Teaching Computer Science</a></li>	
+			   <div class="clearfix"></div>
+			   </ul>
+		 </div>
+		  <div class="clearfix"></div>
+		  
+		  
+	 </div>
+</div>
+{% endblock %}

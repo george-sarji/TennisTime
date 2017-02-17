@@ -1,52 +1,124 @@
-<!doctype html>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  </style>
-<div>
-<title>{% block title %}{%endblock%}</title>
-<center>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="{{ url_for('main') }}">Tennis</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('main') }}">Home</a></li>
-        <li><a href="{{ url_for('championships') }}">Championships</a></li>
-        <li><a href="{{ url_for('players') }}">Players</a></li>
-        <li><a href="{{ url_for('news') }}">News</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-      {% if 'id' not in session %}
-        <li><a href="{{ url_for('signup') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      {% else %}
-        {% if session['admin'] == True %}
-        <li><a href="{{url_for('admincp') }}">Admin Control Panel</a></li>
-        {% endif %}
-        <li><a href="{{ url_for('profile') }}">{{session['name']}}</a></li>
-        <li><a href="{{ url_for('logout') }}">Log out</a></li>
-      {% endif %}
-      </ul>
-    </div>
-  </div>
-</nav>
-  </center>
-  <div class="container">
-  {% for message in get_flashed_messages() %}
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link href="{{ url_for('static', filename="css/bootstrap.css") }}" rel='stylesheet' type='text/css'/>
+<link rel="stylesheet" href="{{ url_for('static', filename="css/style.css") }}" type="text/css">
+<script src="{{ url_for('static', filename="jquery.min.js") }}"></script>
+<script src="{{ url_for('static', filename="responsiveslides.min.js") }}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Tennis Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<!-- webfonts -->
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,300,600,800,700' rel='stylesheet' type='text/css'>
+  <!-- webfonts --> 
+</head>
+<body> 
+<!----->
+<div class="header agileits">
+   <div class="container">
+   <div class="logo">
+   <a href="{{ url_for('main') }}"><img src="{{url_for('static', filename="images/logo.png") }}" alt=""/></a>
+   </div>
+   <div class="top-menu top">
+      <span class="menu"> </span>
+     <ul>
+        <li class="active simptip-position-bottom simptip-movable" data-tooltip="Home"><a class="home" href="{{ url_for('main') }}""></a></li>
+          <li class="simptip-position-bottom simptip-movable" data-tooltip="About Me"><a class="about" href="{{ url_for('AboutMe') }}"></a></li>
+        <li class=" simptip-position-bottom simptip-movable" data-tooltip="News"><a class="service" href="{{ url_for('news') }}"></a></li>
+        <li class=" simptip-position-bottom simptip-movable" data-tooltip="Gallery"><a class="gallery" href="{{ url_for('gallery') }}"></a></li>
+        <li class=" simptip-position-bottom simptip-movable" data-tooltip="Contact Us"><a class="contact" href="{{ url_for('contact') }}"></a></li>
+       <div class="clearfix"></div>
+     </ul>
+          <!--script-nav-->
+         <script>
+         $("span.menu").click(function(){
+         $(".top-menu ul").slideToggle("slow" , function(){
+         });
+         });
+         </script>
+         <!--script-nav-->
+   </div>
+   <div class="clearfix"></div>
+   </div>
+</div>
+<!----->
+<hr>
+<div class="container">
+{% for message in get_flashed_messages() %}
   <div class="alert alert-danger">
   <center>{{ message }}</center></div>
   {% endfor %}
-  {% block body %}{% endblock %}
-  </div>
+{% block body %} {% endblock %}
+</div
+<!----->
+<div class="fotter w3-agileits">
+   <div class="container">
+     <div class="col-md-3 ftr-logo">
+     <a href="index.html"><img src="{{ url_for('static', filename="images/logo2.png") }}" alt=""/></a>     
+     </div>
+     <div class="col-md-3 address">
+       <h4>Address</h4>
+       <ul class="address-info">
+           <li><span></span></li>
+         <li><p>YMCA</p>
+         <p>Nazareth, Israel</p></li>
+       </ul>
+       <ul class="address-mail">
+         <li><span></span></li>
+         <li><p>Email: <a href="mailto:georgesarji@gmail.com">georgesarji@gmail.com</a></p></li>
+       </ul>
+     </div>
+     <div class="col-md-6 touch">
+       <h4>Stay in Touch</h4>
+       <div class="form">
+       {% if 'id' not in session %}
+       <center>
+        <a href="{{ url_for('signup')}}"">
+        Sign Up
+        </a>
+        </center>
+       {% else %}
+       <center><a href="{{ url_for('profile') }}">Welcome back, {{session['name']}}</a></center>
+       {% endif %}
+       </div>
+       <div class="social-icons agileits-w3layouts">
+       {% if 'id' not in session %}
+        <center>
+        <a href="{{ url_for('login')}}"">
+        Sign in
+        </a>
+        </center>
+       {% else %}
+       <form action="" method="get">
+       <center>
+       <a href="{{ url_for('logout') }}">
+       Sign out
+       </a>
+       </center>
+       {% endif %} 
+       {% if session['admin'] == True %}
+       <center>
+        <a href="{{ url_for('admincp')}}"">
+        Admin Control Panel
+        </a>
+        </center>
+      {% endif %}
+       </div>
+      }
+     </div>
+     <div class="clearfix"></div>
+     <div class="copy-right w3-agile"><p>&copy 2015 Tennis . All Rights Reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p></div>
+   </div>
 </div>
-
+<!----->
+</body>
+</html>
 

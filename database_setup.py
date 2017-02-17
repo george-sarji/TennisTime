@@ -56,12 +56,10 @@ class Player(Base):
     club=Column(String)
     awards=Column(Integer)
     narrative=Column(String)
+    photo=Column(String)
 
-class PlayerAssoc(Base):
-    __tablename__='player_championship'
-    id=Column(Integer, primary_key=True)
-    player_id=Column(Integer, ForeignKey('player.id'))
-    championship_id=Column(Integer, ForeignKey('championship.id'))
+    def set_photo(self, photo):
+        self.photo = photo
 
 class News(Base):
     __tablename__='news'
@@ -85,7 +83,7 @@ class Gallery(Base):
     __tablename__="gallery"
     id=Column(Integer, primary_key=True)
     news_id=Column(Integer, ForeignKey('news.id'))
-    nae=Column(String)
+    name=Column(String)
 
 engine = create_engine('sqlite:///Project.db')
 

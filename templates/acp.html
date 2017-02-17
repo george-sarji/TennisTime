@@ -1,8 +1,55 @@
 {% extends "layout.html" %}
 {% block title %}Admin Control Panel{% endblock %}
 {% block body %}
-<p><a href="{{ url_for('ManageArticles') }}">Add a new article</a></p>
+
+<hr>
+<p><a href="{{ url_for('ManageArticles') }}">Manage Articles</a></p>
+{% if article is not none %}
+<div class="article">
+<form action="{{ url_for('ManageArticle', id=article.id) }}" method="get">
+<p>{{article.subject}}</p>
+<p>{{article.content}}</p>
+<center><input type="submit" value="Manage Article" class="btn btn-primary"></center>
+</div>
+</form>
+{% else %}
+<center><p>No articles found.</p></center>
+{% endif %}
+<hr>
 <p><a href="{{ url_for('ManageUsers') }}">Manage Users</a></p>
+{% if user is not none %}
+<form action="{{url_for('ManageUser', id=user.id )}}" method="get">
+	<p>{{user.name}}</p>
+	<p>{{user.email}}</p>
+	<p><center><input type="submit" value="Manage User" class="btn btn-primary"></center></p>
+</form>
+{% else %}
+<center><p>No users found.</p></center>
+{% endif %}
+<hr>
 <p><a href="{{ url_for('ManageChampionships') }}">Manage Championships</a></p>
+{% if championship is not none %}
+<form action="{{ url_for('ManageChampionship', id=championship.id) }}" method="get">
+<p>{{championship.name}}</p>
+<p>{{championship.date}}</p>
+<p>{{championship.place}}</p>
+<center><p><input type="submit" value="Manage Championship" class="btn btn-primary"></p></center>
+</form>
+{% else %}
+<center><p>No championships found.</p></center>
+{% endif %}
 <p><a href="{{ url_for('ManagePlayers') }}">Manage Players</a></p>
+{% if player is not none %}
+<form action="{{ url_for('ManagePlayer', id=player.id) }}" method="get">
+<p>Name: {{player.name}}</p>
+<p>Birthday: {{player.dob}}</p>
+<p>Country: {{player.country}}</p>
+<p>Club: {{player.club}}</p>
+<p>Awards: {{player.awards}}</p>
+<p><center><input type="submit" value="Manage Player" class="btn btn-primary"></center></p>
+</form>
+{% else %}
+<center><p>No players found.</p></center>
+{% endif %}
+<hr>
 {% endblock %}

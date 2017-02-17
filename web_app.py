@@ -37,7 +37,10 @@ def allowed_file(filename):
 #YOUR WEB APP CODE GOES HERE
 @app.route('/')
 def main():
-	return render_template('index.html')
+	players=dbsession.query(Player).order_by(Player.id).limit(3)
+	articles=dbsession.query(News).order_by(News.id).limit(3)
+	championships=dbsession.query(Championship).order_by(Championship.id).limit(5)
+	return render_template('index.html', players=players, articles=articles, championships=championships)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -133,7 +136,11 @@ def admincp():
 		id=login_session['id']
 		user=dbsession.query(User).filter_by(id=id).first()
 		if (user is not None and user.admin):
-			return render_template('acp.html')
+			lastuser=dbsession.query(User).order_by(User.id).first()
+			lastarticle=dbsession.query(News).order_by(News.id).first()
+			lastchampionship=dbsession.query(Championship).order_by(Championship.id).first()
+			lastplayer=dbsession.query(Player).order_by(Player.id).first()
+			return render_template('acp.html', user=lastuser, article=lastarticle, championship=lastchampionship, player=lastplayer)
 		flash ("Access not authorized.")
 		return redirect(url_for('main'))
 
@@ -148,9 +155,10 @@ def article(id):
 			author=dbsession.query(User).filter_by(id=article.user.id).first()
 			users=[]
 			comments=dbsession.query(Comment).filter_by(news_id=id).all()
+			pictures=dbsession.query(Gallery).filter_by(news_id=id).first()
 			for comment in comments:
 				users.append(dbsession.query(User).filter_by(id=comment.user_id).first())
-			return render_template('article.html', article=article, author=author, comments=comments, users=users)
+			return render_template('article.html', article=article, author=author, comments=comments, users=users, pictures=pictures)
 	else:
 		comment=request.form['comment']
 		newcomment=Comment(user_id=login_session['id'], news_id=id, content=comment)
@@ -168,6 +176,7 @@ def logout():
 	del login_session['email']
 	del login_session['id']
 	del login_session['name']
+	del login_session['admin']
 	flash("Good bye!")
 	return redirect(url_for('login'))
 
@@ -297,8 +306,16 @@ def AddArticle():
 		subject=request.form['subject']
 		content=request.form['content']
 		content=content.replace('\r', '\n')
+		file=request.files['file']
 		article=News(subject=subject, content=content, user=user, user_id=user.id)
 		dbsession.add(article)
+		dbsession.commit()
+		photo=Gallery(news_id=article.id)
+		dbsession.add(photo)
+		dbsession.commit()
+		filename = str(photo.id)
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		photo.name=filename
 		dbsession.commit()
 		flash("Article added successfully.")
 		return redirect(url_for('ManageArticles'))
@@ -441,12 +458,30 @@ def AddPlayer():
 		club=request.form['club']
 		awards=(int)(request.form['awards'])
 		narrative=request.form['narrative'].replace('\r', '\n')
+		file=request.files['file']
 		player=Player(name=name, dob=datetime(year=(int)(birthday[0]), month=(int)(birthday[1]), day=(int)(birthday[2])), country=country, gender=gender,
 			club=club, narrative=narrative, awards=awards)
 		dbsession.add(player)
 		dbsession.commit()
+		filename = str(player.id) + "_player" 
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		player.set_photo(filename)
+		dbsession.commit()
 		flash("Player added successfully.")
 		return redirect(url_for('ManagePlayers'))
+
+@app.route('/about')
+def AboutMe():
+	return render_template('about.html')
+
+@app.route('/gallery')
+def gallery():
+	gallery=dbsession.query(Gallery).all()
+	return render_template('gallery.html', gallery=gallery)
+
+@app.route('/contact')
+def contact():
+	return render_template('contact.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)

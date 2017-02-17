@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Profile - {{user.name}}{% endblock %}
 {% block body %}
-<center><img src="{{ url_for('static', filename=user.photo) }}"></center>
+<center><img src="{{ url_for('static', filename=user.photo) }}" class="img-thumbnail" width=300px height=200px></center>
 <p>{{user.name}}</p>
 <p>{{user.email}}</p>
 <p>{{user.birthday}}</p>

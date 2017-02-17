@@ -6,7 +6,7 @@
 <p>Name: <input type="text" name="name" value="{{championship.name}}"></p>
 <p>Place: <input type="text" name="place" value="{{championship.place}}"></p>
 <p>Date: <input type="date" name="date" value="{{championship.date}}"></p>
-<p><center><input type="submit" value="Edit Championship"></center></p>
+<p><center><input type="submit" value="Edit Championship" class="btn btn-primary"></center></p>
 </form>
 <p><center><a href="{{ url_for('DeleteChampionship', id=championship.id) }}">Delete Championship</a></center></p>
 

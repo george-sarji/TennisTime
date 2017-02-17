@@ -3,16 +3,16 @@
 {% block body %}
 <form action="{{url_for('ManageArticle', id=article.id) }}" method="post">
 <center><h1> Managing article: {{article.subject}}</h1></center>
-<p>Subject: <input type="text" name="subject" value="{{article.subject}}"><br></p>
-<p>Content: <textarea name="content">{{ article.content }}</textarea></p>
-<center><input type="submit" value="Done"></center>
+<p>Subject: <input type="text" name="subject" value="{{article.subject}}" class="form-control"><br></p>
+<p>Content: <textarea name="content" class="form-control">{{ article.content }}</textarea></p>
+<center><input type="submit" value="Done" class="btn btn-primary"></center>
 </form>
 <center><a href="{{ url_for('DeleteArticle', id=article.id) }}">Delete Article</a></center>
 {% for comment in comments %}
 <form action="{{ url_for('DeleteComment', id=comment.id ) }}" method="post">
 	<p>User: {{comment.user.name}}</p>
 	<p>Content: {{comment.content}}</p>
-	<p><center><input type="submit" value="Delete"></center></p>
+	<p><center><input type="submit" value="Delete" class="btn btn-primary"></center></p>
 </form>
 
 {% endfor %}

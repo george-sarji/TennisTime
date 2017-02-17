@@ -1,5 +1,239 @@
-{% extends "layout.html" %}
-{% block title %}Tennis - Index{% endblock %}
-{% block body %}
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Tennis Club</title>
+<link href="{{ url_for('static', filename="css/bootstrap.css") }}" rel='stylesheet' type='text/css'/>
+<link rel="stylesheet" href="{{ url_for('static', filename="css/style.css") }}" type="text/css">
+<script src="{{ url_for('static', filename="jquery.min.js") }}"></script>
+<script src="{{ url_for('static', filename="responsiveslides.min.js") }}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Tennis Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<!-- webfonts -->
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,300,600,800,700' rel='stylesheet' type='text/css'>
+  <!-- webfonts --> 
+<script>
+    $(function () {
+      $("#slider").responsiveSlides({
+      	auto: true,
+      	speed: 500,
+        namespace: "callbacks",
+        pager: true,
+      });
+    });
+  </script>
+</head>
+<body> 
 
-{% endblock %}
+<!----->
+<div class="slider w3layouts">	  
+	  <div class="callbacks_container">
+	      <ul class="rslides" id="slider">
+	         <li>
+				 <div class="banner">
+				 	<div class="banner-text">
+					 	<h1>Vince Lombardi</h1>
+						<h2>It's not whether you get knocked down; it's whether you get up.</h2>
+					</div>
+				 </div>
+	         </li>
+	         <li>
+				 <div class="banner_two">
+				 	<div class="banner-text">
+					 	<h1>Ernie Banks</h1>
+						<h2>“The only way to prove that you’re a good sport is to lose.”</h2>
+					</div>
+				 </div>
+	         </li>
+	         <li>
+				 <div class="banner_three">
+				 	<div class="banner-text">
+					 	<h1>Jackie Joyner-Kersee</h1>
+						<h2>“Age is no barrier. It’s a limitation you put on your mind.”</h2>
+					</div>
+				 </div>
+	         </li>
+	      </ul>	      
+      </div>
+</div>
+<!----->
+<div class="header agileits">
+   <div class="container">
+   <div class="logo">
+   <a href="index.html"><img src="{{url_for('static', filename="images/logo.png") }}" alt=""/></a>
+   </div>
+   <div class="top-menu top">
+      <span class="menu"> </span>
+     <ul>
+        <li class="active simptip-position-bottom simptip-movable" data-tooltip="Home"><a class="home" href="{{ url_for('main') }}""></a></li>
+          <li class="simptip-position-bottom simptip-movable" data-tooltip="About Me"><a class="about" href="{{ url_for('AboutMe') }}"></a></li>
+        <li class=" simptip-position-bottom simptip-movable" data-tooltip="News"><a class="service" href="{{ url_for('news') }}"></a></li>
+        <li class=" simptip-position-bottom simptip-movable" data-tooltip="Gallery"><a class="gallery" href="{{ url_for('gallery') }}"></a></li>
+        <li class=" simptip-position-bottom simptip-movable" data-tooltip="Contact Us"><a class="contact" href="{{ url_for('contact') }}"></a></li>
+       <div class="clearfix"></div>
+     </ul>
+          <!--script-nav-->
+         <script>
+         $("span.menu").click(function(){
+         $(".top-menu ul").slideToggle("slow" , function(){
+         });
+         });
+         </script>
+         <!--script-nav-->
+   </div>
+   <div class="clearfix"></div>
+   </div>
+</div>
+<!----->
+
+<!----->
+<hr>
+{% for message in get_flashed_messages() %}
+  <div class="alert alert-danger">
+  <center>{{ message }}</center></div>
+  {% endfor %}
+<div class="welcome">
+	 <div class="container">
+	 <div class="col-md-4 wel-left">
+	 <h3>Welcome</h3>
+	 <h4>To our club!</h4>
+	 </div>
+	 <div class="col-md-8 wel-right">
+		 <p>We are a website that provides up to date information about Tennis; News, Championships and Players. We hope you enjoy the user experience of the website.</p>
+	 </div>
+	 <div class="clearfix"></div>
+	 </div>
+</div>
+<!----->
+<div class="event">	 
+	 <div class="container">
+		 <h3>Players</h3>
+		 <div class="col-md-8 event-sec-left">
+		 {% for player in players %}
+			 <div class="col-md-4 evnt">
+			 <img src="{{url_for('static', filename=player.photo) }}" alt="" width=326px height=176px/>
+			 <h4>{{player.name}}</h4>
+			 <p>{{player.narrative}}</p>
+			 </div>
+			 {% endfor %}
+			 <div class="clearfix"></div>
+		 </div>
+		   <div class="col-md-4 event-sec-right">
+				<h3>Championships</h3>
+				<p>This is a list of the last added Championships.</p>
+				<ul>
+				{% for championship in championships %}
+			   <li><a href="#"><span> </span>{{championship.name}}</a></li>
+			   {% endfor %}
+			   </ul>
+		   </div>
+		   <div class="clearfix"></div>
+	   </div>
+</div>
+<!----->
+ <script>
+    $(function () {
+      $("#slider1").responsiveSlides({
+      	auto: true,
+      	speed: 500,
+        namespace: "callbacks",
+        pager: true,
+      });
+    });
+  </script>
+   <script src="js/responsiveslides.min.js"></script>
+<div class="slider">	  
+	  <div class="callbacks_container">
+	      <ul class="rslides" id="slider1">
+	         <li>
+				 <div class="event-slider">
+				 	<h3>Ut sodales augue ac sapien</h3>
+					<h3>Morbi blandit nibh nisl, eu eleifend.</h3>
+				 </div>
+	         </li> 
+	      </ul>	      
+      </div>
+</div>
+<!----->
+<div class="news">
+	 <div class="container">
+		 <h3>Latest News</h3>
+		 {% for article in articles %}
+		 <div class="col-md-4 top-news">
+		 <h4><a href="{{ url_for('article', id=article.id) }}">{{article.subject}}</h4>
+		 <p>{{article.content}}</p>
+		 </div>
+		 {% endfor %}
+		 <div class="clearfix"></div>
+	 </div>
+</div>
+<!----->
+<div class="fotter w3-agileits">
+   <div class="container">
+     <div class="col-md-3 ftr-logo">
+     <a href="index.html"><img src="{{ url_for('static', filename="images/logo2.png") }}" alt=""/></a>     
+     </div>
+     <div class="col-md-3 address">
+       <h4>Address</h4>
+       <ul class="address-info">
+           <li><span></span></li>
+         <li><p>YMCA</p>
+         <p>Nazareth, Israel</p></li>
+       </ul>
+       <ul class="address-mail">
+         <li><span></span></li>
+         <li><p>Email: <a href="mailto:georgesarji@gmail.com">georgesarji@gmail.com</a></p></li>
+       </ul>
+     </div>
+     <div class="col-md-6 touch">
+       <h4>Stay in Touch</h4>
+       <div class="form">
+       {% if 'id' not in session %}
+       <center>
+        <a href="{{ url_for('signup')}}"">
+        Sign Up
+        </a>
+        </center>
+       {% else %}
+       <center><a href="{{ url_for('profile') }}">Welcome back, {{session['name']}}</a></center>
+       {% endif %}
+       </div>
+       <div class="social-icons agileits-w3layouts">
+       {% if 'id' not in session %}
+        <center>
+        <a href="{{ url_for('login')}}"">
+        Sign in
+        </a>
+        </center>
+       {% else %}
+       <form action="" method="get">
+       <center>
+       <a href="{{ url_for('logout') }}">
+       Sign out
+       </a>
+       </center>
+       {% endif %} 
+       {% if session['admin'] == True %}
+       <center>
+        <a href="{{ url_for('admincp')}}"">
+        Admin Control Panel
+        </a>
+        </center>
+      {% endif %}
+       </div>
+      }
+     </div>
+     <div class="clearfix"></div>
+     <div class="copy-right w3-agile"><p>&copy 2015 Tennis . All Rights Reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p></div>
+   </div>
+</div>
+<!----->
+</body>
+</html>

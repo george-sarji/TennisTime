@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Tennis - Sign up{% endblock %}
 {% block body %}
+<hr>
 <div class="container">
-	<form action={{url_for('signup')}} method="post" class="form" enctype="multipart/form-data">
+	<form action={{url_for('signup')}} method="post" enctype="multipart/form-data">
 	<div class="form-group">
 	<label>E-mail:</label>
 		<input type="text" name="email" placeholder="Your e-mail" required="required" class="form-control">
@@ -43,6 +44,6 @@
 	<input type="submit" name="submit" value="Sign up" class="btn btn-success">
 	</center>
 	</form>
-
+<hr>
 </div>
 {% endblock %}

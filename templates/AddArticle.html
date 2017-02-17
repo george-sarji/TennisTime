@@ -1,9 +1,19 @@
 {% extends "layout.html" %}
 {% block title %}Admin Control Panel{% endblock %}
 {% block body %}
-<form action="{{ url_for('AddArticle') }}" method="post">
-<input type="text" name="subject" placeholder="The subject">
-<textarea name="content" placeholder="The content"></textarea>
-<input type="submit" value="Add article">
+<form action="{{ url_for('AddArticle') }}" method="post" enctype="multipart/form-data">
+<p><label>Subject:</label>
+<input type="text" name="subject" placeholder="The subject" class="form-control">
+</p>
+<hr>
+<p><label>Content: </label>
+<textarea name="content" placeholder="The content" class="form-control"></textarea>
+</p>
+<hr>
+<p><label>Photo: </label>
+<input type="file" name="file" class="form-control">
+</p>
+<hr>
+<input type="submit" value="Add article" class="btn btn-primary">
 </form>
 {% endblock %}

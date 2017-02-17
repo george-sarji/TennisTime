@@ -2,16 +2,27 @@
 {% block title %}Article - {{article.subject}}{% endblock %}
 {% block body %}
 <center><h1>{{article.subject}}</h1></center>
-{{article.content}}
+<p>{{article.content}}</p>
+<hr>
+<center><h3>Comments</h3></center>
+<hr>
+<center><img src="{{ url_for('static', filename=pictures.name) }}" width="300px" height=200px></center>
 {% if 'id' in session %}
 <form action="{{url_for('article', id=article.id) }}" method="post">
-<textarea name="comment" placeholder="Comment here..."></textarea>
-<input type="submit" value="Comment">
+<p><label>Comment: </label>
+<textarea name="comment" placeholder="Comment here..." class="form-control"></textarea>
+</p>
+<hr>
+<p>
+<center>
+<input type="submit" value="Comment" class="btn btn-primary">
+</center>
+</p>
 </form>
 {% endif %}
 {% for comment in comments %}
 <div class="comment">
-{{users[loop.index0].name}}
+{{users[loop.index0].name}}:
 {{comment.content}}
 </div>
 {% endfor %}

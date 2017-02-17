@@ -2,11 +2,11 @@
 {% block title %}ACP - Managing Users{% endblock %}
 {% block body %}
 <form action="{{ url_for('ManageUser', id=user.id) }}" method="post">
-<p><img src="{{ url_for('static', filename=user.photo ) }}"></p>
+<p><img src="{{ url_for('static', filename=user.photo ) }}" width=300px height=300px class="img-thumbnail"></p>
 <p>{{user.name}}</p>
 <p>{{user.email}}</p>
 <p>{{user.country}}</p>
-<input type="submit" value="Delete Account">
+<input type="submit" value="Delete Account" class="btn btn-primary">
 </form>
 
 {% endblock %}

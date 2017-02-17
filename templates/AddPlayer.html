@@ -2,7 +2,7 @@
 {% block title %}Admin Control Panel{% endblock %}
 {% block body %}
 <center><h1>Add a player</h1></center>
-<form action="{{ url_for('AddPlayer') }}" method="post">
+<form action="{{ url_for('AddPlayer') }}" method="post"  enctype="multipart/form-data">
 <p>Name: <input type="text" name="name" required></p>
 <p>Gender: <ul><li><input type="radio" name="gender" value="male" default>Male</li>
 				<li><input type="radio" name="gender" value="female"></li></ul></p>
@@ -10,7 +10,8 @@
 <p>Country: <input type="text" name="country" required></p>
 <p>Club: <input type="text" name="club" required></p>
 <p>Awards: <input type="number" name="awards" required></p>
-<p>Narrative: <textarea name="narrative"></textarea></p>
-<p><center><input type="submit" value="Add Player"></center></p>
+<p>Narrative: <textarea name="narrative" required></textarea></p>
+<p>Photo: <input type="file" name="file" required></p>
+<p><center><input type="submit" value="Add Player" class="btn btn-primary"></center></p>
 </form>
 {% endblock %}

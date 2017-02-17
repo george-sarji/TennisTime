@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block title %}Contact Us{% endblock %}
+{% block body %}
+
+<!---start-content---->
+<div class="contact_desc w3layouts">
+		        <div class="container">
+			         <div class="contact-form">
+				  	   <h2>CONTACT US</h2>
+					     <form method="post"  class="left_form">
+					    	<div>
+						    	<span><label>NAME</label></span>
+						    	<span><input name="userName" type="text" class="textbox"></span>
+						    </div>
+						    <div>
+						    	<span><label>E-MAIL</label></span>
+						    	<span><input name="userEmail" type="text" class="textbox"></span>
+						    </div>
+						    <div>
+						     	<span><label>Fax</label></span>
+						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    </div>
+					    </form>
+					    <form class="right_form">
+					        <div>					    	
+						    	<span><label>SUBJECT</label></span>
+						    	<span><textarea name="userMsg"> </textarea></span>
+						    </div>
+						   <div>
+						   		<span><input type="submit" value="Submit" class="myButton"></span>
+						  </div>
+					    </form>
+					    <div class="clearfix"></div>
+				  </div>
+				 <div class="content_bottom">
+				 	<div class="company_address">
+				     	<h3>Location</h3>
+						    	<p>YMCA,</p>
+						   		<p>Nazareth, North District,</p>
+						   		<p>Israel</p>
+				 	 	<p>Email:   <a href="mailto:georgesarji@gmail.com">georgesarji@gmail.com</a></p>
+				     </div>
+				       <div class="contact_info">
+    	 				<h3>Find Us Here</h3>
+					    	  <div class="map">
+							   	    <iframe width="100%" height="185" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDSpoEp2QFbQxX9A1_OzTV1td_fQIbyUXg
+    &q=YMCA,Nazareth+Israel" allowfullscreen></iframe><br>
+							  </div>
+      				     </div>
+				      <div class="clearfix"></div>
+	                </div>	
+	             </div>  
+</div>
+{% endblock %}

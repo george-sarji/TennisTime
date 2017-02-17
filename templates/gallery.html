@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Gallery{% endblock %}
+{% block body %}
+<div class="agileits-gal">
+		<div class="container">
+			
+			<h2 class="w3ls_head">Gallery</h2>
+			<div class="agileinfo_gallery_grids">
+				<ul class="clearfix demo">
+				{% for image in gallery %}
+					<li>
+						<div class="agileinfo_gallery_grid">
+						  <figure class="imghvr-fold-up"><img src="{{ url_for('static', filename=image.name) }}" alt=" " class="img-responsive" width="600px" height="380px">
+							<figcaption>
+							</figcaption>
+						  </figure>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+				<script src="js/jquery.picEyes.js"></script>
+				<script>
+					$(function(){
+						//picturesEyes($('.demo li'));
+						$('.demo li').picEyes();
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+
+<!-- gallery -->
+{% endblock %}
