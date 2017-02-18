@@ -3,9 +3,13 @@
 {% block body %}
 <center><h1>Adding new championship</h1></center>
 <form action="{{ url_for('AddChampionship') }}" method="post">
-<p>Name: <input type="text" name="name" placeholder="Championship name" required></p>
-<p>Place: <input type="text" name="place" placeholder="Championship place" required></p>
-<p>Date: <input type="date" name="date" required></p>
-<p><center><input type="submit" value="Add Championship"></center></p>
+<p><label><u>Name: </u></label><input type="text" name="name" placeholder="Championship name" required class="form-control"></p>
+<hr>
+<p><label><u>Place: </u></label><input type="text" name="place" placeholder="Championship place" required class="form-control"></p>
+<hr>
+<p><label><u>Date: </u></label><input type="date" name="date" required class="form-control"></p>
+<hr>
+<p><center><input type="submit" value="Add Championship" class="btn btn-primary"></center></p>
 </form>
+<hr>
 {% endblock %}

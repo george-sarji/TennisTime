@@ -125,7 +125,11 @@ def players():
 @app.route('/news')
 def news():
 	newslist=dbsession.query(News).all()
-	return render_template('news.html', newslist=newslist)
+	photos=[]
+	for article in newslist:
+		photo=dbsession.query(Gallery).filter_by(news_id=article.id).first()
+		photos.append(photo)
+	return render_template('news.html', news=newslist, photos=photos)
 
 @app.route('/acp')
 def admincp():
@@ -263,6 +267,7 @@ def ManageUser(id):
 		for comment in comments:
 			dbsession.delete(comment)
 		#dbsession.delete(comments)
+		os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user.photo))
 		dbsession.delete(user)
 		dbsession.commit()
 		flash("User deleted successfully.")
@@ -285,6 +290,10 @@ def DeleteArticle(id):
 		comments=dbsession.query(Comment).filter_by(news_id=article.id).all()
 		for comment in comments:
 			dbsession.delete(comment)
+		photos=dbsession.query(Gallery).filter_by(news_id=article.id).all()
+		for photo in photos:
+			os.remove(os.path.join(app.config['UPLOAD_FOLDER'], photo.name))
+			dbsession.delete(photo)
 		dbsession.delete(article)
 		dbsession.commit()
 		flash("Article successfully deleted.")
@@ -313,7 +322,7 @@ def AddArticle():
 		photo=Gallery(news_id=article.id)
 		dbsession.add(photo)
 		dbsession.commit()
-		filename = str(photo.id)
+		filename = str(photo.id)+"_article"
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		photo.name=filename
 		dbsession.commit()

@@ -22,8 +22,9 @@
 {% endif %}
 {% for comment in comments %}
 <div class="comment">
-{{users[loop.index0].name}}:
+<label><u>{{users[loop.index0].name}}:</u></label>
 {{comment.content}}
 </div>
+<hr>
 {% endfor %}
 {% endblock %}

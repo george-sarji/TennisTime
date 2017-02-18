@@ -2,14 +2,17 @@
 {% block title %}Admin Control Panel{% endblock %}
 {% block body %}
 <center><h1>Managing Championships</h1></center>
+<hr>
 {% for championship in championships %}
 <form action="{{ url_for('ManageChampionship', id=championship.id) }}" method="get">
-<p>{{championship.name}}</p>
-<p>{{championship.date}}</p>
-<p>{{championship.place}}</p>
+<p><label><u>Name:</u></label> {{championship.name}}</p>
+<p><label><u>Date:</u></label> {{championship.date}}</p>
+<p><label><u>Place:</u></label> {{championship.place}}</p>
 <center><p><input type="submit" value="Manage Championship" class="btn btn-primary"></p></center>
+<hr>
 </form>
 <hr>
 {% endfor %}
-<p><center><a href="{{ url_for('AddChampionship') }}">Add Championship</a></center></p>
+<p><center><strong><a href="{{ url_for('AddChampionship') }}">Add Championship</a></strong></center></p>
+<hr>
 {% endblock %}

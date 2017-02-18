@@ -3,12 +3,12 @@
 {% block body %}
 
 <hr>
-<p><a href="{{ url_for('ManageArticles') }}">Manage Articles</a></p>
+<p><center><strong><a href="{{ url_for('ManageArticles') }}">Manage Articles</a></strong></center></p>
 {% if article is not none %}
 <div class="article">
 <form action="{{ url_for('ManageArticle', id=article.id) }}" method="get">
 <p>{{article.subject}}</p>
-<p>{{article.content}}</p>
+<p>{{article.content[0:255]}}...</p>
 <center><input type="submit" value="Manage Article" class="btn btn-primary"></center>
 </div>
 </form>
@@ -16,7 +16,7 @@
 <center><p>No articles found.</p></center>
 {% endif %}
 <hr>
-<p><a href="{{ url_for('ManageUsers') }}">Manage Users</a></p>
+<p><center><strong><a href="{{ url_for('ManageUsers') }}">Manage Users</a></strong></center></p>
 {% if user is not none %}
 <form action="{{url_for('ManageUser', id=user.id )}}" method="get">
 	<p>{{user.name}}</p>
@@ -25,9 +25,10 @@
 </form>
 {% else %}
 <center><p>No users found.</p></center>
+<hr>
 {% endif %}
 <hr>
-<p><a href="{{ url_for('ManageChampionships') }}">Manage Championships</a></p>
+<p><center><strong><a href="{{ url_for('ManageChampionships') }}">Manage Championships</a></strong></center></p>
 {% if championship is not none %}
 <form action="{{ url_for('ManageChampionship', id=championship.id) }}" method="get">
 <p>{{championship.name}}</p>
@@ -38,7 +39,8 @@
 {% else %}
 <center><p>No championships found.</p></center>
 {% endif %}
-<p><a href="{{ url_for('ManagePlayers') }}">Manage Players</a></p>
+<hr>
+<p><center><strong><a href="{{ url_for('ManagePlayers') }}">Manage Players</a></strong></center></p>
 {% if player is not none %}
 <form action="{{ url_for('ManagePlayer', id=player.id) }}" method="get">
 <p>Name: {{player.name}}</p>

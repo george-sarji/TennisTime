@@ -3,15 +3,27 @@
 {% block body %}
 <center><h1>Add a player</h1></center>
 <form action="{{ url_for('AddPlayer') }}" method="post"  enctype="multipart/form-data">
-<p>Name: <input type="text" name="name" required></p>
-<p>Gender: <ul><li><input type="radio" name="gender" value="male" default>Male</li>
-				<li><input type="radio" name="gender" value="female"></li></ul></p>
-<p>Birthday: <input type="date" name="birthday" required></p>
-<p>Country: <input type="text" name="country" required></p>
-<p>Club: <input type="text" name="club" required></p>
-<p>Awards: <input type="number" name="awards" required></p>
-<p>Narrative: <textarea name="narrative" required></textarea></p>
-<p>Photo: <input type="file" name="file" required></p>
+<p><label><u>Name:</u></label> <input type="text" name="name" required class="form-control"></p>
+<hr>
+<label><u>Gender:</u></label> <br>
+<select class="form-control" name="gender" required>
+<option value="male" default>Male</option>
+<option value="female" default>Female</option>
+</select>
+<hr>
+<p><label><u>Birthday:</u></label> <input type="date" name="birthday" required class="form-control"></p>
+<hr>
+<p><label><u>Country:</u></label> <input type="text" name="country" required class="form-control"></p>
+<hr>
+<p><label><u>Club:</u></label> <input type="text" name="club" required class="form-control"></p>
+<hr>
+<p><label><u>Awards:</u></label> <input type="number" name="awards" required class="form-control"></p>
+<hr>
+<p><label><u>Narrative:</u></label> <textarea name="narrative" required class="form-control"></textarea></p>
+<hr>
+<p><label><u>Photo:</u></label> <input type="file" name="file" required class="form-control"></p>
+<hr>
 <p><center><input type="submit" value="Add Player" class="btn btn-primary"></center></p>
 </form>
+<hr>
 {% endblock %}

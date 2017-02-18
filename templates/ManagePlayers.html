@@ -4,13 +4,15 @@
 <center><h1>Manage Players</h1></center>
 {% for player in players %}
 <form action="{{ url_for('ManagePlayer', id=player.id) }}" method="get">
-<p>Name: {{player.name}}</p>
-<p>Birthday: {{player.dob}}</p>
-<p>Country: {{player.country}}</p>
-<p>Club: {{player.club}}</p>
-<p>Awards: {{player.awards}}</p>
-<p><center><input type="submit" value="Manage"></center></p>
+<p><label><u>Name: </u></label>{{player.name}}</p>
+<p><label><u>Birthday: </u></label>{{player.dob}}</p>
+<p><label><u>Country: </u></label>{{player.country}}</p>
+<p><label><u>Club: </u></label>{{player.club}}</p>
+<p><label><u>Awards: </u></label>{{player.awards}}</p>
+<p><center><input type="submit" value="Manage" class="btn btn-primary"></center></p>
 </form>
+<hr>
 {% endfor %}
-<p><center><a href="{{ url_for('AddPlayer') }}">Add Plauer</a></center></p>
+<p><center><a href="{{ url_for('AddPlayer') }}">Add Player</a></center></p>
+<hr>
 {% endblock %}

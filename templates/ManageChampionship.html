@@ -3,9 +3,12 @@
 {% block body %}
 <center><h1>Managing Championship - {{championship.name}}</h1></center>
 <form action="{{ url_for('ManageChampionship', id=championship.id) }}" method="post">
-<p>Name: <input type="text" name="name" value="{{championship.name}}"></p>
-<p>Place: <input type="text" name="place" value="{{championship.place}}"></p>
-<p>Date: <input type="date" name="date" value="{{championship.date}}"></p>
+<p><label><u>Name:</u></label> <input type="text" name="name" value="{{championship.name}}" class="form-control"></p>
+<hr>
+<p><label><u>Place:</u></label> <input type="text" name="place" value="{{championship.place}}" class="form-control"></p>
+<hr>
+<p><label><u>Date:</u></label> <input type="date" name="date" value="{{championship.date}}" class="form-control"></p>
+<hr>
 <p><center><input type="submit" value="Edit Championship" class="btn btn-primary"></center></p>
 </form>
 <p><center><a href="{{ url_for('DeleteChampionship', id=championship.id) }}">Delete Championship</a></center></p>

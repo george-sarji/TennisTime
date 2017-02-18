@@ -1,12 +1,45 @@
 {% extends "layout.html" %}
-{% block title %}Championships{% endblock %}
+{% block title %}News{% endblock %}
 {% block body %}
-{% for article in newslist %}
-<div class="article">
-<a href="{{url_for('article', id=article.id) }}">{{ article.subject }}</a>
-{{ article.content }}
+<!----->
+<script>
+		$(document).ready(function () {
+		    size_li = $("#myList li").size();
+		    x=2;
+		    $('#myList li:lt('+x+')').show();
+		    $('#loadMore').click(function () {
+		        x= (x+1 <= size_li) ? x+1 : size_li;
+		        $('#myList li:lt('+x+')').show();
+		    });
+		    $('#showLess').click(function () {
+		        x=(x-1<0) ? 1 : x-1;
+		        $('#myList li').not(':lt('+x+')').hide();
+		    });
+		});
+	</script>
+
+<div class="service-grids w3layouts">
+	 <div class="container">
+		 <h2>NEWS</h2>
+		 <div class="service-grid">
+		 	<div class="l_g">
+		 		{% for article in news %}
+		 		<div class="col-md-4 service-sec">
+		 		<img src="{{url_for('static', filename=photos[loop.index0].name)}}" class="img-responsive">
+					<h3><a href="{{url_for('article', id=article.id ) }}">{{article.subject}}</a></h3>
+					<p>{{article.content[:255]}}...</p>
+		 		</div>
+		 		{% if loop.idex0 == 3 %}
+		 		</div>
+		 		<hr>
+		 		<div class="l_g">
+		 		{% endif %}
+		 		{% endfor %}
+		 		</div>
+		 </div>
+	 </div>
 </div>
-{% endfor %}
+<!----->
 
 
 {%endblock%}

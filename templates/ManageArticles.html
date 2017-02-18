@@ -5,7 +5,7 @@
 <div class="article">
 <form action="{{ url_for('ManageArticle', id=article.id) }}" method="get">
 <p>{{article.subject}}</p>
-<p>{{article.content}}</p>
+<p>{{article.content[:255]}}...</p>
 <center><input type="submit" value="Manage" class="btn btn-primary"></center>
 </div>
 </form>
